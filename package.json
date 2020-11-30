@@ -12,6 +12,8 @@
   },
   "keywords": [
     "gulp",
+    "gulpplugin",
+    "icons",
     "feathericons"
   ],
   "author": "oToToT",
@@ -19,5 +21,11 @@
   "bugs": {
     "url": "https://github.com/oToToT/gulp-feather/issues"
   },
-  "homepage": "https://github.com/oToToT/gulp-feather#readme"
+  "homepage": "https://github.com/oToToT/gulp-feather#readme",
+  "dependencies": {
+    "classnames": "^2.2.6",
+    "feather-icons": "^4.28.0",
+    "jsdom": "^16.4.0",
+    "through2": "^4.0.2"
+  }
 }

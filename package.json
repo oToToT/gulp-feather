@@ -1,0 +1,23 @@
+{
+  "name": "gulp-feather",
+  "version": "0.0.1",
+  "description": "Render feathericons server-side using gulp",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oToToT/gulp-feather.git"
+  },
+  "keywords": [
+    "gulp",
+    "feathericons"
+  ],
+  "author": "oToToT",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/oToToT/gulp-feather/issues"
+  },
+  "homepage": "https://github.com/oToToT/gulp-feather#readme"
+}

@@ -1,42 +1,38 @@
 const through = require('through2');
 const { JSDOM } = require('jsdom');
-const { icons } = require('feather-icons');
-const classnames = require('classnames/dedupe');
+const { replace } = require('feather-icons');
 
 module.exports = (attrs = {}) => {
     return through.obj(function(file, encoding, cb) {
         const dom = new JSDOM(file.contents, { runScripts: "outside-only" });
 
-        /* modified from https://github.com/feathericons/feather/blob/master/src/replace.js */
-        function getAttrs(element) {
-            return Array.from(element.attributes).reduce((attrs, attr) => {
-                attrs[attr.name] = attr.value;
-                return attrs;
-            }, {});
+        let saved_variables = new Map();
+
+        if (typeof document !== 'undefined') {
+            saved_variables.set('document', document);
         }
-        function replaceElement(element, attrs = {}) {
-            const elementAttrs = getAttrs(element);
-            const name = elementAttrs['data-feather'];
-            delete elementAttrs['data-feather'];
-
-            const svgString = icons[name].toSvg({
-                ...attrs,
-                ...elementAttrs,
-                ...{ class: classnames(attrs.class, elementAttrs.class) },
-            });
-            const svgDocument = new dom.window.DOMParser().parseFromString(
-                svgString,
-                'image/svg+xml',
-            );
-            const svgElement = svgDocument.querySelector('svg');
-
-            element.parentNode.replaceChild(svgElement, element);
+        document = dom.window.document;
+        if (typeof DOMParser !== 'undefined') {
+            saved_variables.set('DOMParser', DOMParser);
         }
-        const elementsToReplace = dom.window.document.querySelectorAll('[data-feather]');
-        Array.from(elementsToReplace).forEach(element => replaceElement(element, attrs));
+        DOMParser = dom.window.DOMParser;
 
-        const buf = Buffer.from(dom.serialize(), 'utf-8');
-        file.contents = buf;
+        replace(attrs);
+
+        if (saved_variables.has('document')) {
+            document = saved_variables.get('document');
+        }
+        if (saved_variables.has('DOMParser')) {
+            document = saved_variables.get('DOMParser');
+        }
+
+        const result_html = dom.serialize();
+        if (file.contents.length < result_html.length) {
+            const buf = Buffer.from(result_html, encoding);
+            file.contents = buf;
+        } else {
+            file.contents.write(result_html, encoding);
+        }
         this.push(file);
         return cb();
     });

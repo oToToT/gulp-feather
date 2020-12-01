@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,6 +16,8 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 15
+    - name: install dependencies
+      run: npm install
     - name: lint
       run: npm run linter
     - name: test

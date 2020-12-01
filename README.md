@@ -1,6 +1,7 @@
 # gulp-feather
 
 [![version](https://img.shields.io/npm/v/gulp-feather?color=brightgreen&label=version)](https://www.npmjs.com/package/gulp-feather)
+![Test Package](https://github.com/oToToT/gulp-feather/workflows/Test%20Package/badge.svg)
 
 ## What is gulp-feather
 

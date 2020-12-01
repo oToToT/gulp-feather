@@ -4,7 +4,8 @@
   "description": "Render feathericons on the server-side using gulp",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "linter": "eslint index.js"
   },
   "repository": {
     "type": "git",
@@ -29,5 +30,10 @@
     "jsdom": "^16.4.0",
     "plugin-error": "^1.0.1",
     "through2": "^4.0.2"
+  },
+  "devDependencies": {
+    "eslint": "^7.14.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1"
   }
 }

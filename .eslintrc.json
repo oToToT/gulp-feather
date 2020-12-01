@@ -1,0 +1,24 @@
+{
+  "env": {
+    "es2021": true,
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "rules": {
+    "linebreak-style": ["error", "unix"],
+    "no-var": "off",
+    "no-param-reassign": [
+      "error",
+      {
+        "props": true,
+        "ignorePropertyModificationsForRegex": ["^file$"]
+      }
+    ]
+  }
+}

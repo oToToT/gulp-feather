@@ -5,49 +5,59 @@ const through = require('through2');
 const { JSDOM } = require('jsdom');
 const { replace } = require('feather-icons');
 
-module.exports = (attrs = {}) => {
-    return through.obj(function(file, encoding, cb) {
-        if (file.isNull()) {
-            // nothing to do
-            return callback(null, file);
-        }
+module.exports = (attrs = {}) => through.obj(function (file, encoding, cb) {
 
-        if (file.isStream()) {
-            this.emit('error', new PluginError(PLUGIN_NAME, 'Streams not supported!'));
-        } else if (file.isBuffer()) {
-            const dom = new JSDOM(file.contents, { runScripts: "outside-only" });
+  if (file.isNull()) {
+    // nothing to do
+    return cb(null, file);
+  }
 
-            let saved_variables = new Map();
+  if (file.isStream()) {
+    // might support stream in the future
+    const err = new PluginError(PLUGIN_NAME, 'Streams not supported!');
+    this.emit('error', err);
+    return cb(err);
+  }
 
-            if (typeof document !== 'undefined') {
-                saved_variables.set('document', document);
-            }
-            document = dom.window.document;
-            if (typeof DOMParser !== 'undefined') {
-                saved_variables.set('DOMParser', DOMParser);
-            }
-            DOMParser = dom.window.DOMParser;
+  if (file.isBuffer()) {
+    // create dom from html file
+    const dom = new JSDOM(file.contents, { runScripts: 'outside-only' });
 
-            replace(attrs);
+    // override document and DOMParser
+    const savedVariables = new Map();
+    if (typeof global.document !== 'undefined') {
+      savedVariables.set('document', global.document);
+    }
+    global.document = dom.window.document;
+    if (typeof global.DOMParser !== 'undefined') {
+      savedVariables.set('DOMParser', global.DOMParser);
+    }
+    global.DOMParser = dom.window.DOMParser;
 
-            if (saved_variables.has('document')) {
-                document = saved_variables.get('document');
-            }
-            if (saved_variables.has('DOMParser')) {
-                document = saved_variables.get('DOMParser');
-            }
+    // replace feathericons
+    replace(attrs);
 
-            const result_html = dom.serialize();
-            if (file.contents.length < result_html.length) {
-                const buf = Buffer.from(result_html, encoding);
-                file.contents = buf;
-            } else {
-                file.contents.write(result_html, encoding);
-            }
+    // restore overrided variables
+    if (savedVariables.has('document')) {
+      global.document = savedVariables.get('document');
+    }
+    if (savedVariables.has('DOMParser')) {
+      global.DOMParser = savedVariables.get('DOMParser');
+    }
 
-            return cb(null, file);
-        } else {
-            this.emit('error', new PluginError(PLUGIN_NAME, 'Streams not supported!'));
-        }
-    });
-};
+    // output to file contents
+    const HTMLResult = dom.serialize();
+    if (file.contents.length < HTMLResult.length) {
+      const buf = Buffer.from(HTMLResult, encoding);
+      file.contents = buf;
+    } else {
+      file.contents.write(HTMLResult, encoding);
+    }
+
+    return cb(null, file);
+  }
+
+  const err = new PluginError(PLUGIN_NAME, 'Unsupported type of file!');
+  this.emit('error', err);
+  return cb(err);
+});

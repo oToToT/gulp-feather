@@ -59,7 +59,7 @@ module.exports = (attrs = {}) => through.obj(function (file, encoding, cb) {
     return cb(null, file);
   }
 
-  const err = new PluginError(PLUGIN_NAME, 'Unsupported type of file!');
+  const err = new PluginError(PLUGIN_NAME, 'Unexpected type of input');
   this.emit('error', err);
   return cb(err);
 });

@@ -1,3 +1,5 @@
+"use strict";
+
 const PLUGIN_NAME = 'gulp-feather';
 
 const PluginError = require('plugin-error');

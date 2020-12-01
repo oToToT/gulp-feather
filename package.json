@@ -17,7 +17,9 @@
     "icons",
     "ssr",
     "feather",
-    "feathericons"
+    "icons",
+    "feathericons",
+    "feather-icons"
   ],
   "author": "oToToT",
   "license": "MIT",

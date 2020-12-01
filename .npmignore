@@ -1,2 +1,4 @@
 .eslintrc.json
 node_modules/*
+test/*
+coverage/*

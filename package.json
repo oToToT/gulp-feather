@@ -4,7 +4,7 @@
   "description": "Render feathericons on the server-side using gulp",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "c8 --reporter=text mocha --recursive",
     "linter": "eslint index.js"
   },
   "repository": {
@@ -32,8 +32,11 @@
     "through2": "^4.0.2"
   },
   "devDependencies": {
+    "c8": "^7.3.5",
     "eslint": "^7.14.0",
     "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-plugin-import": "^2.22.1"
+    "eslint-plugin-import": "^2.22.1",
+    "mocha": "^8.2.1",
+    "vinyl": "^2.2.1"
   }
 }

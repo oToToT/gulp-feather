@@ -5,7 +5,7 @@
 
 ## What is gulp-feather
 
-This package allows you to use [Feather](https://github.com/feathericons/feather) without executing any JavaScript on the client-side, by rendereing icons on the server-side using [gulp](https://gulpjs.com/).
+This package allows you to use [Feather](https://github.com/feathericons/feather) without executing any JavaScript on the client-side by rendereing icons on the server-side using [jsdom](https://github.com/jsdom/jsdom) with [gulp](https://gulpjs.com/).
 
 ## Install
 

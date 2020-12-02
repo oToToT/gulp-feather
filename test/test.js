@@ -49,6 +49,22 @@ describe('gulp-feather', () => {
           assert(testHTML.equals(expectedHTML));
         });
       });
+      
+      it('should ensure global variables unchanged', function(done) {
+        let a = new Object();
+        let b = new Object();
+        global.document = a;
+        global.DOMParser = b;
+        let stream = featherify();
+
+        check(stream, done, function (newFile) {
+          const testHTML = newFile.contents;
+          const expectedHTML = fs.readFileSync('test/expected/basic.html');
+          assert(testHTML.equals(expectedHTML));
+          assert.strictEqual(a, global.document);
+          assert.strictEqual(b, global.DOMParser);
+        });
+      });
 
       it('should apply attributes to svg', function(done) {
         let stream = featherify({ class: 'foo bar', 'stroke-width': 1 });

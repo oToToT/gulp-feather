@@ -7,29 +7,32 @@ const through = require('through2');
 const { JSDOM } = require('jsdom');
 const { replace } = require('feather-icons');
 
-module.exports = (attrs = {}) => through.obj(function (file, encoding, cb) {
+function emulateBrowser(dom, execFunc) {
   const savedVariables = new Map();
 
-  function emulateBrowser(dom) {
-    // override document and DOMParser
-    if (typeof global.document !== 'undefined') {
-      savedVariables.set('document', global.document);
-    }
-    global.document = dom.window.document;
-    if (typeof global.DOMParser !== 'undefined') {
-      savedVariables.set('DOMParser', global.DOMParser);
-    }
-    global.DOMParser = dom.window.DOMParser;
+  // override document and DOMParser
+  if (typeof global.document !== 'undefined') {
+    savedVariables.set('document', global.document);
   }
-  function restoreVariables() {
-    // restore overrided variables
-    if (savedVariables.has('document')) {
-      global.document = savedVariables.get('document');
-    }
-    if (savedVariables.has('DOMParser')) {
-      global.DOMParser = savedVariables.get('DOMParser');
-    }
+  global.document = dom.window.document;
+  if (typeof global.DOMParser !== 'undefined') {
+    savedVariables.set('DOMParser', global.DOMParser);
   }
+  global.DOMParser = dom.window.DOMParser;
+
+  execFunc();
+  
+  // restore overrided variables
+  if (savedVariables.has('document')) {
+    global.document = savedVariables.get('document');
+  }
+  if (savedVariables.has('DOMParser')) {
+    global.DOMParser = savedVariables.get('DOMParser');
+  }
+}
+
+module.exports = (attrs = {}) => through.obj(function (file, encoding, cb) {
+
 
   if (file.isNull()) {
     // nothing to do
@@ -46,12 +49,9 @@ module.exports = (attrs = {}) => through.obj(function (file, encoding, cb) {
   if (file.isBuffer()) {
     // create dom from html file
     const dom = new JSDOM(file.contents, { runScripts: 'outside-only' });
-    // start emulation
-    emulateBrowser(dom);
-    // replace feathericons
-    replace(attrs);
-    // stop emulation
-    restoreVariables();
+
+    // replace feathericons in an emulated browser environment
+    emulateBrowser(dom, ()=>replace(attrs));
 
     // output to file contents
     const HTMLResult = dom.serialize();
@@ -65,6 +65,7 @@ module.exports = (attrs = {}) => through.obj(function (file, encoding, cb) {
     return cb(null, file);
   }
 
+  // this should be unreachable
   const err = new PluginError(PLUGIN_NAME, 'Unexpected type of input');
   this.emit('error', err);
   return cb(err);

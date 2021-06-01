@@ -29,16 +29,16 @@
   "homepage": "https://github.com/oToToT/gulp-feather#readme",
   "dependencies": {
     "feather-icons": "^4.28.0",
-    "jsdom": "^16.4.0",
+    "jsdom": "^16.6.0",
     "plugin-error": "^1.0.1",
     "through2": "^4.0.2"
   },
   "devDependencies": {
-    "c8": "^7.3.5",
-    "eslint": "^7.14.0",
+    "c8": "^7.7.2",
+    "eslint": "^7.27.0",
     "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-plugin-import": "^2.22.1",
-    "mocha": "^8.2.1",
+    "eslint-plugin-import": "^2.23.4",
+    "mocha": "^8.4.0",
     "vinyl": "^2.2.1"
   }
 }

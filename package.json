@@ -1,6 +1,6 @@
 {
   "name": "gulp-feather",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Render feathericons on the server-side using gulp",
   "main": "index.js",
   "scripts": {

@@ -8,17 +8,21 @@ on:
 
 jobs:
   test:
-    name: lint and test
+    name: lint and test (Node.js ${{ matrix.node-version }})
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: ['22.22.2', '24.15.0', '26']
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js 20
-      uses: actions/setup-node@v1
+    - uses: actions/checkout@v7
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v7
       with:
-        node-version: 20
+        node-version: ${{ matrix.node-version }}
+        cache: npm
     - name: install dependencies
-      run: npm install
+      run: npm ci
     - name: lint
       run: npm run linter
     - name: test

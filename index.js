@@ -3,7 +3,7 @@
 const PLUGIN_NAME = 'gulp-feather';
 
 const PluginError = require('plugin-error');
-const through = require('through2');
+const { objectTransform } = require('through2');
 const { JSDOM } = require('jsdom');
 const { replace } = require('feather-icons');
 
@@ -31,7 +31,7 @@ function emulateBrowser(dom, execFunc) {
   }
 }
 
-module.exports = (attrs = {}) => through.obj(function (file, encoding, cb) {
+module.exports = (attrs = {}) => objectTransform(function (file, encoding, cb) {
 
 
   if (file.isNull()) {

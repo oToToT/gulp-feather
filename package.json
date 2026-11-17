@@ -1,6 +1,6 @@
 {
   "name": "gulp-feather",
-  "version": "0.1.9",
+  "version": "0.2.0",
   "description": "Render feathericons on the server-side using gulp",
   "main": "index.js",
   "scripts": {
@@ -28,17 +28,23 @@
   },
   "homepage": "https://github.com/oToToT/gulp-feather#readme",
   "dependencies": {
-    "feather-icons": "^4.29.0",
-    "jsdom": "^19.0.0",
-    "plugin-error": "^1.0.1",
-    "through2": "^4.0.2"
+    "feather-icons": "^4.29.2",
+    "jsdom": "^31.0.1",
+    "plugin-error": "^2.0.1",
+    "through2": "^5.0.12"
   },
   "devDependencies": {
-    "c8": "^7.11.2",
-    "eslint": "^8.14.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.26.0",
+    "@eslint/js": "^10.0.1",
+    "c8": "^12.0.0",
+    "eslint": "^10.15.0",
+    "globals": "^17.14.0",
     "mocha": "^12.0.3",
-    "vinyl": "^2.2.1"
-  }
+    "vinyl": "^3.0.1"
+  },
+  "engines": {
+    "node": "^22.22.2 || ^24.15.0 || >=26.0.0"
+  },
+  "files": [
+    "index.js"
+  ]
 }

@@ -9,6 +9,8 @@ This package allows you to use [Feather](https://github.com/feathericons/feather
 
 ## Install
 
+Requires Node.js `^22.22.2 || ^24.15.0 || >=26.0.0` (since v0.2.0).
+
 ```bash
 $ npm install --save-dev gulp-feather
 ```
@@ -114,6 +116,18 @@ gulp.task('default', ['html']);
 
 ```html
 <svg id="my-circle" class="feather feather-circle foo bar" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle></svg>
+```
+
+## Development
+
+Commit `package-lock.json` to keep local and CI installs reproducible. npm excludes
+this lockfile from the published package; consumers resolve dependencies using
+the ranges in `package.json`.
+
+```bash
+npm ci
+npm run linter
+npm test
 ```
 
 ## License
